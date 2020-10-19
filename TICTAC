@@ -1,0 +1,144 @@
+# TIC TAC TOE
+symbols = ['o', 'x']
+sep = 11 * "-"
+separator = 40 * "="
+
+
+# Welcome to the game
+def welcome():
+    print(separator)
+    print("""Welcome to Tic Tac Toe\nGAME RULES:\nEach player can place one mark (or stone) per turn on the 3x3  grid\n   
+        The WINNER is who succeeds in placing three of their marks in a\n
+        * horizontal\n* vertical or\n* diagonal row\nLet´s start the game
+        """)
+
+welcome()
+print()
+
+# Board is 3*3 - list
+class board:
+    def __init__(self):
+        self.unit = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+
+    def show_board(self):
+        print(" %s | %s | %s " % (self.unit[1], self.unit[2], self.unit[3]))
+        print(sep)
+        print(" %s | %s | %s " % (self.unit[4], self.unit[5], self.unit[6]))
+        print(sep)
+        print(" %s | %s | %s " % (self.unit[7], self.unit[8], self.unit[9]))
+
+    def update_unit(self, unit_number, player):
+        # Use only empty spaces
+        if self.unit[unit_number] == " ":
+            self.unit[unit_number] = player
+
+    # 8 possibilities to win
+    def winner(self, player):
+        if self.unit[1] == player and self.unit[2] == player and self.unit[3] == player:
+            return True
+
+        if self.unit[4] == player and self.unit[5] == player and self.unit[6] == player:
+            return True
+
+        if self.unit[7] == player and self.unit[8] == player and self.unit[9] == player:
+            return True
+
+        if self.unit[1] == player and self.unit[4] == player and self.unit[7] == player:
+            return True
+
+        if self.unit[2] == player and self.unit[5] == player and self.unit[8] == player:
+            return True
+
+        if self.unit[3] == player and self.unit[6] == player and self.unit[9] == player:
+            return True
+
+        if self.unit[1] == player and self.unit[5] == player and self.unit[9] == player:
+            return True
+
+        if self.unit[3] == player and self.unit[5] == player and self.unit[7] == player:
+            return True
+
+        return False
+
+    # game is tied, how many units are used?
+    def game_tie(self):
+        used_units = 0
+        for unit in self.unit:
+            if unit != " ":
+                used_units += 1
+        if used_units == 9:
+            return True
+        else:
+            return False
+
+    # reset the units in the list
+    def reset_board(self):
+        self.unit = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+
+board = board()
+
+# New Screen
+def screen_update():
+    board.show_board()
+
+while True:
+
+    # Player 1, play and show the board
+    print(separator)
+    o_player = int(input("\nPlayer o, please choose your move 1-9: "))
+    print(separator)
+    print(separator)
+
+    board.update_unit(o_player, "o")
+    screen_update()
+
+    # Check if o_player is the winner
+    if board.winner("o"):
+        print("\nCongratulation to your win player o!\n")
+        play_new = input("Do you want to play again? Y or N?: ")
+        if play_new == "Y":
+            board.reset_board()
+            continue
+        else:
+            break
+
+    print(separator)
+
+    # Tie game?
+    if board.game_tie():
+        print("\nIt is a tied game!\n")
+        play_new = input("Do you want to play again? Y or N?: ")
+        if play_new == "Y":
+            board.reset_board()
+            continue
+        else:
+            break
+
+    # Player 2, play and show the board
+    print(separator)
+    x_player = int(input("\nPlayer x, please choose your move 1-9: "))
+    print(separator)
+    print(separator)
+
+    board.update_unit(x_player, "x")
+    screen_update()
+
+    # Check if x_player is the winner
+    if board.winner("x"):
+        print("\nCongratulation to your win player x!\n")
+        play_new = input("Do you want to play again? Y or N?: ")
+        if play_new == "Y":
+            board.reset_board()
+            continue
+        else:
+            break
+    # Tie game?
+    if board.game_tie():
+        print("\nIt is a tied game!\n")
+        play_new = input("Do you want to play again? Y or N?: ")
+        if play_new == "Y":
+            board.reset_board()
+            continue
+        else:
+            break
+print(separator)
